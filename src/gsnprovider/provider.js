@@ -157,6 +157,6 @@ GsnProvider.prototype.perform = async function (method, params) {
 	});
 };
 
-module.exports.newGsnProvider = (config) => {
+module.exports.new = (config) => {
 	return new GsnProvider(config);
 };

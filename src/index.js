@@ -1,5 +1,3 @@
 'use strict';
 
-module.exports.EthersWallet = {
-  Keystore: require('./gsnprovider/provider')
-};
+module.exports.GsnProvider = require('./gsnprovider/provider');
