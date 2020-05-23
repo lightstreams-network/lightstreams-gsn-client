@@ -1,0 +1,47 @@
+{
+  "name": "react-native-gsn-client",
+  "version": "0.2.0",
+  "description": "A Gas Station Relay Client that is compatible with React Native for Android and iOS",
+  "author": "Michael Smolenski",
+  "contributors": [
+    "Ishab Acharya"
+  ],
+  "license": "GPLv3",
+  "homepage": "https://github.com/lightstreams-network/react-native-gsn-client#readme",
+  "bugs": {
+    "url": "https://github.com/lightstreams-network/react-native-gsn-client/issues"
+  },
+  "main": "src/index.js",
+  "scripts": {
+    "build": "babel src -d build/src",
+    "build-single": "babel src --out-file ./build/src/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lightstreams-network/react-native-gsn-client.git"
+  },
+  "keywords": [
+    "lightstreams",
+    "blockchain",
+    "ethereum",
+    "javascript",
+    "js",
+    "sdk",
+    "decentralized",
+    "storage", 
+    "react native",
+    "gas station network"
+  ],
+  "files": [
+    "src/"
+  ],
+  "dependencies": {
+    "buffer": "^5.6.0",
+    "ethers": "git+https://github.com/lightstreams-network/ethers.js.git#ls_mods"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.5.5",
+    "@babel/core": "^7.5.5",
+    "@babel/preset-env": "^7.5.5"
+  }
+}
