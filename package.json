@@ -37,7 +37,9 @@
   ],
   "dependencies": {
     "buffer": "^5.6.0",
-    "ethers": "git+https://github.com/lightstreams-network/ethers.js.git#ls_mods"
+    "ethers": "git+https://github.com/lightstreams-network/ethers.js.git#ls_mods",
+    "react-native-dotenv": "^0.2.0"
+
   },
   "devDependencies": {
     "@babel/cli": "^7.5.5",

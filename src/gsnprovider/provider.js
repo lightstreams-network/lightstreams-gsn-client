@@ -1,28 +1,15 @@
-import {
-	RELAY_URL,
-	RELAY_HUB,
-	RELAY_ADRRESS,
-	RELAY_FEE,
-	GAS_PRICE,
-	BLOCKCHAIN_RPC,
-	CHAIN_ID,
-	CHAIN_NAME
-} from "react-native-dotenv";
-
-import { Buffer } from 'buffer'
-
+const Buffer = require('buffer').Buffer;
 const inherits = require("inherits");
 const ethers = require("ethers");
 const relayHubAbi = require('./IRelayHub');
 
-const network = {
-	chainId: parseInt(CHAIN_ID),
-	name: CHAIN_NAME
-};
+function GsnProvider(config) {
+    this.config = config;
+    
+    let chainId = parseInt(config.chainId);
 
-function GsnProvider(url, network) {
-	ethers.providers.BaseProvider.call(this, network.chainId);
-	this.subprovider = new ethers.providers.JsonRpcProvider(url, network.chainId);
+	ethers.providers.BaseProvider.call(this, chainId);
+	this.subprovider = new ethers.providers.JsonRpcProvider(config.blockchainRpc, chainId);
 }
 inherits(GsnProvider, ethers.providers.BaseProvider);
 
@@ -94,14 +81,15 @@ GsnProvider.prototype.perform = async function (method, params) {
 		let from = params.contract.signer.address;
 		let to = params.contract.address;
 		let tx = params.data;
-		let txfee = parseInt(RELAY_FEE);
-		let gas_price = GAS_PRICE;
+		let txfee = parseInt(this.config.relayFee);
+		let gas_price = this.config.gasPrice;
 		let gas_limit = params.gasLimit.toString();
-		let relay_hub_address = RELAY_HUB;
-		let relay_address = RELAY_ADRRESS;
+		let relay_hub_address = this.config.relayHub;
+		let relay_address = this.config.relyAddress;
 		let privateKey = params.contract.signer.privateKey;
+        let relayUrl = this.config.relayUrl;
 
-		let relayHub = new ethers.Contract(RELAY_HUB, relayHubAbi, this.subprovider);
+		let relayHub = new ethers.Contract(relay_hub_address, relayHubAbi, this.subprovider);
 		let nonce = parseInt(await relayHub.getNonce(from));
 
 		let hash = getTransactionHash(
@@ -139,7 +127,7 @@ GsnProvider.prototype.perform = async function (method, params) {
 		let relayRes;
 
 		try {
-			relayRes = await fetch(RELAY_URL + "/relay", {
+			relayRes = await fetch(relayUrl + "/relay", {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json"
@@ -169,6 +157,6 @@ GsnProvider.prototype.perform = async function (method, params) {
 	});
 };
 
-export const provider = (url) => {
-	return new GsnProvider(url, network);
+module.exports.newGsnProvider = (config) => {
+	return new GsnProvider(config);
 };
