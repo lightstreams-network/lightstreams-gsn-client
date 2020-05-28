@@ -5,7 +5,7 @@ const relayHubAbi = require('./IRelayHub');
 
 function GsnProvider(config) {
     this.config = config;
-    
+    this.data = null;
     let chainId = parseInt(config.chainId);
 
 	ethers.providers.BaseProvider.call(this, chainId);
@@ -77,7 +77,8 @@ function getTransactionHash(
 }
 
 GsnProvider.prototype.perform = async function (method, params) {
-	if (method === "sendTransaction") {
+	
+	if (method === "preSendTransaction") {
 		let from = params.contract.signer.address;
 		let to = params.contract.address;
 		let tx = params.data;
@@ -124,10 +125,10 @@ GsnProvider.prototype.perform = async function (method, params) {
 			RelayHubAddress: relay_hub_address
 		};
 
-		let relayRes;
+		let data;
 
 		try {
-			relayRes = await fetch(relayUrl + "/relay", {
+			let relayRes = await fetch(relayUrl + "/relay", {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json"
@@ -136,19 +137,29 @@ GsnProvider.prototype.perform = async function (method, params) {
 			});
 			data = await relayRes.json()
 			if (data.error) {
-				console.log("error from relay:", data.error);
+				console.log("error received from relay:", data.error);
+				return new Promise(function (resolve, reject) {
+					reject(null, data.error);
+				});
 			}
 		} catch (err) {
-			console.log("error from post request to relay", err);
+			console.log("error thrown from relay post:", err);
+			return new Promise(function (resolve, reject) {
+				reject(null, err);
+			});
 		}
+
+		this.data = data;
+
 		return new Promise(function (resolve, reject) {
-			resolve(relayRes);
+			resolve(data.hash);
 		});
 	}
 
-	if (method === "sendSignedTransaction") {
+	if (method === "sendTransaction") {
+		data = this.data
 		return new Promise(function (resolve, reject) {
-			resolve();
+			resolve(data.hash);
 		});
 	}
 
