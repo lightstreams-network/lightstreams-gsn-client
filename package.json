@@ -1,15 +1,15 @@
 {
-  "name": "react-native-gsn-client",
+  "name": "lightstreams-gsn-client",
   "version": "0.2.0",
-  "description": "A Gas Station Relay Client that is compatible with React Native for Android and iOS",
+  "description": "A Gas Station Relay Client for Lightstreams that is compatible with React Native for Android and iOS",
   "author": "Michael Smolenski",
   "contributors": [
     "Ishab Acharya"
   ],
   "license": "GPLv3",
-  "homepage": "https://github.com/lightstreams-network/react-native-gsn-client#readme",
+  "homepage": "https://github.com/lightstreams-network/lightstreams-gsn-client#readme",
   "bugs": {
-    "url": "https://github.com/lightstreams-network/react-native-gsn-client/issues"
+    "url": "https://github.com/lightstreams-network/lightstreams-gsn-client/issues"
   },
   "main": "src/index.js",
   "scripts": {
@@ -18,7 +18,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/lightstreams-network/react-native-gsn-client.git"
+    "url": "git+https://github.com/lightstreams-network/lightstreams-gsn-client.git"
   },
   "keywords": [
     "lightstreams",
